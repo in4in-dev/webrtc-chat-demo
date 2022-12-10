@@ -20,6 +20,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+
+	.dialogs{
+		overflow: auto;
+		height: 100%;
+	}
 
 </style>

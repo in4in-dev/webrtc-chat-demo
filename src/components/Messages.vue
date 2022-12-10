@@ -1,7 +1,7 @@
 <template>
 	<section class="messages">
 		<div class="messages__header">
-			<!--<p class="messages__user-name">{{ companion.name }}</p>-->
+			<p class="messages__user-name">Name</p>
 		</div>
 		<div class="messages__dump">
 			<Message v-for="message in chatStorage.messages" :key="message.id" :message="message" />
@@ -49,6 +49,29 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+
+	.messages{
+		background: #F2F4F4;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		justify-content: space-between;
+	}
+
+	.messages__header{
+		flex-shrink: 0;
+		background: white;
+		padding: 10px 16px;
+	}
+
+	.messages__user-name{
+		color: #475F7B;
+		font-size: 14px;
+	}
+
+	.messages__footer{
+		flex-shrink: 0;
+	}
 
 </style>
