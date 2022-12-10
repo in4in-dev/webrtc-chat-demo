@@ -1,11 +1,11 @@
 <template>
 	<section class="dialogs">
 		<Dialog class="dialogs__item"
-			v-for="dialog in $chatStorage.dialogs"
+			v-for="dialog in chatStorage.dialogs"
 		    :key="dialog.id"
 		    :dialog="dialog"
-		    :selected="$chatStorage.selectedDialog.id === dialog.id"
-		    @click.prevent="$chatStorage.selectedDialog = dialog"
+		    :selected="chatStorage.selectedRoomId === dialog.room.id"
+		    @click.prevent="chatStorage.selectedRoomId = dialog.room.id"
 		/>
 	</section>
 </template>

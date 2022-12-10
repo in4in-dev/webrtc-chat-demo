@@ -2,6 +2,6 @@ import {reactive} from "vue";
 
 export default reactive({
 	dialogs : [],
-	selectedDialog : null,
+	selectedRoomId : null,
 	messages : []
 });
