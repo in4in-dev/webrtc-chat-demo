@@ -1,7 +1,6 @@
 <template>
 	<section class="dialogs">
 		<div class="dialogs__header">
-			<a href="#" class="dialogs__new">+</a>
 		</div>
 		<div class="dialogs__dump">
 			<Dialog class="dialogs__item"
@@ -9,7 +8,7 @@
 			        :key="dialog.id"
 			        :dialog="dialog"
 			        :selected="chatStorage.selectedRoomId === dialog.room.id"
-			        @click.prevent="chatStorage.selectedRoomId = dialog.room.id"
+			        @click.prevent="selectDialog(dialog)"
 			/>
 		</div>
 	</section>
@@ -21,6 +20,12 @@ export default {
 	name: "Dialogs",
 	components : {
 		Dialog
+	},
+	methods : {
+		selectDialog(dialog){
+			this.chatStorage.selectedRoomId = dialog.room.id;
+			this.chatStorage.selectedRoomCompanion = dialog.room.users.find(u => u.id !== this.userStorage.user.id);
+		}
 	}
 }
 </script>

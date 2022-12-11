@@ -1,5 +1,5 @@
 <template>
-    <section class="chat" v-if="appStorage.ready">
+    <section class="chat chat--fullscreen" v-if="appStorage.ready">
 	    <template v-if="userStorage.isAuth">
 		    <Dialogs class="chat__dialogs" />
 		    <Messages class="chat__messages" v-if="chatStorage.selectedRoomId" />
@@ -57,14 +57,23 @@ body{
 }
 
 .chat{
-	max-width: 920px;
-	width: calc(100vw - 200px);
-	height: calc(100vh - 200px);
-	margin: 100px auto;
 	background: white;
 	display: flex;
 	align-items: flex-start;
 	justify-content: flex-start;
+}
+
+.chat--fullscreen{
+	width: 100vw;
+	height: 100vh;
+	max-width: 1440px;
+}
+
+.chat--mini{
+	max-width: 920px;
+	width: calc(100vw - 200px);
+	height: calc(100vh - 200px);
+	margin: 100px auto;
 }
 
 .chat__dialogs{

@@ -1,11 +1,26 @@
 <template>
-	<div class="message" :class="{ 'message--from' : isMyMessage, 'message--to' : !isMyMessage, 'message--text' : !!message.text }">
+	<div class="message" :class="{
+		'message--from' : isMyMessage,
+		'message--to' : !isMyMessage,
+		'message--text' : !!message.text,
+		'message--photo' : (message.attachment && message.attachment.type === 'photo'),
+		'message--document' : (message.attachment && message.attachment.type !== 'photo')
+	}">
 		<div class="message__body">
 			<template v-if="message.text">
-				<p class="message__text">{{ message.text }}</p>
+				<pre class="message__text">{{ message.text }}</pre>
 			</template>
 			<template v-if="message.attachment">
-
+				<img v-if="message.attachment.type === 'photo'" class="message__photo" :src="getAttachmentLink(message.attachment)">
+				<div v-else class="message__document">
+					<a :href="getAttachmentLink(message.attachment)" target="_blank" class="message__document-icon">
+						<Icon name="download" />
+					</a>
+					<div class="message__document-body">
+						<p class="message__document-name">{{ message.attachment.name }}</p>
+						<p class="message__document-size">{{ message.attachment.size }} Байт</p>
+					</div>
+				</div>
 			</template>
 			<time class="message__time">{{ time }}</time>
 		</div>
@@ -29,6 +44,11 @@ export default {
 		},
 		isMyMessage(){
 			return this.message.user_id === this.userStorage.user.id;
+		}
+	},
+	methods : {
+		getAttachmentLink(attachment){
+			return `http://localhost:3001/download?token=${this.userStorage.token}&user_id=${this.userStorage.user.id}&attachment_id=${attachment.id}`;
 		}
 	}
 }
@@ -57,14 +77,23 @@ export default {
 
 .message--to .message__body{
 	float: left;
-	background: #FFFFFF;
-	color: #475F7B;
 }
 
-.message--from .message__body{
+.message--from .message__body {
 	float: right;
+}
+
+.message--from.message--text .message__body,
+.message--from.message--document .message__body{
 	background: deeppink;
 	color: white;
+}
+
+
+.message--to.message--text .message__body,
+.message--to.message--document .message__body{
+	background: #FFFFFF;
+	color: #475F7B;
 }
 
 .message--from + .message--to,
@@ -82,8 +111,9 @@ export default {
 
 .message__text{
 	padding: 11px 14px;
-	font-size: 13px;
 	line-height: 16px;
+	font: inherit;
+	font-size: 13px;
 }
 
 .message__time{
@@ -105,6 +135,94 @@ export default {
 
 .message__clear{
 	clear: both;
+}
+
+.message__photo{
+	max-height: 50vh;
+	max-width: 100%;
+}
+
+.message--photo{
+	border-radius: 4px;
+	overflow: hidden;
+}
+
+.message--photo .message__time{
+	right: 7px;
+	background: #DEE0E0;
+	border-radius: 4px;
+	padding: 2px 4px;
+	color: #000000;
+}
+
+.message--document .message__time{
+	right: 7px;
+}
+
+.message--document .message__body{
+	padding: 14px;
+}
+
+.message__document{
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	min-width: 200px;
+}
+
+.message__document-icon{
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 100%;
+	flex-shrink: 0;
+	margin-right: 12px;
+}
+
+.message__document-name{
+	font-weight: 300;
+	font-size: 13px;
+	line-height: 16px;
+	margin-bottom: 6px;
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.message__document-size{
+	font-weight: 100;
+	font-size: 13px;
+	line-height: 16px;
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.message--from .message__document-icon{
+	background: white;
+	color: deeppink;
+}
+
+.message--from .message__document-name,
+.message--from .message__document-size{
+	color: white;
+}
+
+.message--to .message__document-icon{
+	background: deeppink;
+	color: white;
+}
+
+.message--to .message__document-name{
+	color: black;
+}
+
+.message--to .message__document-size{
+	color: #9FA1A5;
 }
 
 </style>

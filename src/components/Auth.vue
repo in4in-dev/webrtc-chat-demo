@@ -25,6 +25,8 @@ export default {
 
 			if(this.selectedUser){
 
+				this.userStorage.token = this.selectedUser.token;
+
 				this.appStorage.socket.emit('user.auth', {
 					id : this.selectedUser.id,
 					token : this.selectedUser.token
@@ -35,8 +37,8 @@ export default {
 		}
 	},
 	created(){
-		this.selectedUser = this.chatStorage.users[0];
-		this.onSubmit();
+		// this.selectedUser = this.chatStorage.users[0];
+		// this.onSubmit();
 	}
 }
 </script>

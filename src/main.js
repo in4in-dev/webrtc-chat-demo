@@ -1,16 +1,16 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import StoragesMixin from "@/mixins/StoragesMixin";
-import {io} from "socket.io-client";
-import Popup from "@/components/Inrerface/Popup";
-import Modal from "@/components/Inrerface/Modal";
+import Icon from "@/components/Inrerface/Icon";
+import Autosize from "@/directives/Autosize";
 
 
 
 let app = createApp(App);
 
-app.component(Popup)
-app.component(Modal);
+app.use(Autosize);
+
+app.component('Icon', Icon);
 
 app.mixin(StoragesMixin);
 

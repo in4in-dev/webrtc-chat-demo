@@ -1,12 +1,24 @@
 <template>
 	<div class="dialog" :class="{'dialog--selected' : selected}">
-		<i class="dialog__user-picture">{{ companion.name.substr(0, 1) }}</i>
-		<p class="dialog__user-name">{{ companion.name }}</p>
-		<p class="dialog__message">{{ lastMessageText }}</p>
-		<time class="dialog__date">{{ lastMessageDate }}</time>
+		<div class="dialog__user-picture">
+			{{ companion.name.substr(0, 1) }}
+		</div>
+		<p class="dialog__user-name">
+			{{ companion.name }}
+		</p>
+		<p class="dialog__message">
+			{{ lastMessageText }}
+		</p>
+		<time class="dialog__date">
+			{{ lastMessageDate }}
+		</time>
 		<i class="dialog__unread-count" v-if="dialog.chat.unread_count">
 			{{ dialog.chat.unread_count }}
 		</i>
+		<!--<div class="dialog__unread-status">-->
+		<!--	<Icon name="check" class="dialog__unread-status-icon" />-->
+		<!--	<Icon name="check" class="dialog__unread-status-icon" />-->
+		<!--</div>-->
 	</div>
 </template>
 
@@ -27,8 +39,23 @@ export default {
 		companion(){
 			return this.dialog.room.users.find(u => u.id !== this.userStorage.user.id);
 		},
+		lastMessageIsMy(){
+			return this.dialog.message && this.dialog.message.user_id === this.userStorage.user.id;
+		},
 		lastMessageText(){
-			return this.dialog.message ? (this.dialog.message.text || 'Вложение') : '';
+
+			if(!this.dialog.message){
+				return '';
+			}
+
+			let text = this.dialog.message.text || 'Вложение';
+
+			if(this.lastMessageIsMy){
+				text = 'Вы: ' + text;
+			}
+
+			return text;
+
 		},
 		lastMessageDate(){
 			let date =  moment(this.dialog.chat.updated_at);
@@ -86,6 +113,7 @@ export default {
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		width: 100%;
 	}
 
 	.dialog__message{
@@ -96,6 +124,7 @@ export default {
 		padding-right: 100px;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		width: 100%;
 	}
 
 	.dialog__date{
@@ -126,6 +155,14 @@ export default {
 
 	.dialog:hover, .dialog--selected{
 		background: #F2F4F4;
+	}
+
+	.dialog__unread-status{
+		position: absolute;
+		right: 43px;
+		top: 12px;
+		display: block;
+		color: deeppink;
 	}
 
 </style>
