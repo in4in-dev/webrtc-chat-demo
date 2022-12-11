@@ -3,7 +3,7 @@
 		<div class="auth__title">Авторизация</div>
 		<select @change="onUserSelect" required class="auth__select">
 			<option selected>Выберите пользователя</option>
-			<option :value="user.id" v-for="user in users" :key="user.id">{{ user.name }}</option>
+			<option :value="user.id" v-for="user in chatStorage.users" :key="user.id">{{ user.name }}</option>
 		</select>
 		<button type="submit" :disabled="!selectedUser" class="auth__button">Войти</button>
 	</form>
@@ -14,35 +14,18 @@ export default {
 	name: "Auth",
 	data(){
 		return {
-			selectedUser : null,
-			users : [
-				{
-					id : 1,
-					name : 'First user',
-					token : 'token'
-				},
-				{
-					id : 2,
-					name : 'Second user',
-					token : 'token2'
-				},
-				{
-					id : 3,
-					name : 'Third user',
-					token : 'token3'
-				}
-			]
+			selectedUser : null
 		}
 	},
 	methods : {
 		onUserSelect(e){
-			this.selectedUser = e.target.value ? this.users.find(u => u.id === +e.target.value) : null;
+			this.selectedUser = e.target.value ? this.chatStorage.users.find(u => u.id === +e.target.value) : null;
 		},
 		onSubmit(){
 
 			if(this.selectedUser){
 
-				this.socket.emit('user.auth', {
+				this.appStorage.socket.emit('user.auth', {
 					id : this.selectedUser.id,
 					token : this.selectedUser.token
 				});
@@ -50,6 +33,10 @@ export default {
 			}
 
 		}
+	},
+	created(){
+		this.selectedUser = this.chatStorage.users[0];
+		this.onSubmit();
 	}
 }
 </script>
@@ -84,13 +71,13 @@ export default {
 
 .auth__select:hover,
 .auth__select:focus{
-	border-color: #4776d0;
+	border-color: deeppink;
 }
 
 .auth__button{
 	font-size: 21px;
 	color: white;
-	background: #5A8DEE;
+	background: deeppink;
 	padding: 13px 20px;
 	text-align: center;
 	min-width: 300px;
@@ -101,7 +88,7 @@ export default {
 }
 
 .auth__button:hover{
-	background: #4776d0;
+	background: #e1097c;
 }
 
 </style>

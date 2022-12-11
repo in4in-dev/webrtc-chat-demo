@@ -1,8 +1,20 @@
+import {io} from "socket.io-client";
+
 export default {
 
 	created(){
 
-		this.socket.on('on.user.authorized', data => {
+		let socket = io('ws://localhost:3000', {
+			path : '/',
+			transports : ['websocket']
+		});
+
+		socket.on('connect', () => {
+			this.appStorage.socket = socket;
+			this.appStorage.ready = true;
+		});
+
+		socket.on('on.user.authorized', data => {
 
 			if(data.success){
 				this.userStorage.isAuth = true;
@@ -14,7 +26,7 @@ export default {
 
 		});
 
-		this.socket.on('on.chat.history', data => {
+		socket.on('on.chat.history', data => {
 
 			if(this.chatStorage.selectedRoomId === data.room.id){
 

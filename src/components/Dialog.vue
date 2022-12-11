@@ -114,7 +114,7 @@ export default {
 		width: 18px;
 		height: 18px;
 		text-align: center;
-		background: #5A8DEE;
+		background: deeppink;
 		border-radius: 16px;
 		color: white;
 		font-size: 12px;
