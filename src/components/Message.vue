@@ -93,7 +93,7 @@ export default {
 .message--to.message--text .message__body,
 .message--to.message--document .message__body{
 	background: #FFFFFF;
-	color: #475F7B;
+	color: black;
 }
 
 .message--from + .message--to,

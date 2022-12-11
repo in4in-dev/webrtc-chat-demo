@@ -120,7 +120,7 @@ export default {
 	}
 
 	.messages__user-name{
-		color: #475F7B;
+		color: black;
 		font-size: 14px;
 		line-height: 17px;
 		margin-bottom: 2px;
@@ -160,7 +160,7 @@ export default {
 		font-size: 13px;
 		line-height: 17px;
 		text-align: center;
-		color: #475F7B;
+		color: black;
 		padding: 5px 12px;
 		display: inline-block;
 		background: #FFFFFF;

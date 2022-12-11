@@ -2,6 +2,7 @@
 	<div class="dialog" :class="{'dialog--selected' : selected}">
 		<div class="dialog__user-picture">
 			{{ companion.name.substr(0, 1) }}
+			<i class="dialog__user-status" v-if="chatStorage.onlineUsers.indexOf(companion.id) >= 0"></i>
 		</div>
 		<p class="dialog__user-name">
 			{{ companion.name }}
@@ -92,8 +93,10 @@ export default {
 		width: 46px;
 		height: 46px;
 		border-radius: 100%;
-		background: deeppink;
-		color: pink;
+		/*background: deeppink;*/
+		/*color: pink;*/
+		color: deeppink;
+		background: pink;
 		position: absolute;
 		left: 10px;
 		top: 8px;
@@ -104,10 +107,21 @@ export default {
 		font-style: normal;
 	}
 
+	.dialog__user-status{
+		position: absolute;
+		right: 7px;
+		bottom: 2px;
+		width: 7px;
+		height: 7px;
+		border-radius: 100%;
+		display: block;
+		background: deeppink;
+	}
+
 	.dialog__user-name{
 		font-weight: 300;
 		font-size: 14px;
-		color: #475F7B;
+		color: black;
 		margin-bottom: 8px;
 		padding-right: 77px;
 		white-space: nowrap;
